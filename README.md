@@ -18,6 +18,7 @@ The full argument, the ladder (prompt → context → harness → stewardship), 
 |---|---|---|
 | **heartbeat** | [eprouveze/heartbeat](https://github.com/eprouveze/heartbeat) | The loop. An autonomous work loop for a Claude Code session: wakes itself, checks ground truth, advances one item per tick inside a hard envelope, logs every tick, queues anything irreversible to the human. |
 | **rightmodel** | [eprouveze/rightmodel](https://github.com/eprouveze/rightmodel) | The routing-and-trust substrate. A taint → availability → capability → cost cascade, a multi-provider council, and a falsifiable **outcome ledger** that earns autonomy per model and task-class. |
+| **anamnesis** | [eprouveze/anamnesis](https://github.com/eprouveze/anamnesis) | The memory. Persistent institutional memory as a git-native **build artifact**: writes are commits, a CI pipeline indexes + embeds, every machine is a disposable replica. No machine is primary — lose any (or all) and the write path still works and the index rebuilds anywhere. |
 
 ## The core idea
 
