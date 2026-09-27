@@ -1,0 +1,363 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Stewardship Engineering</title>
+<meta name="description" content="Operating an AI agent as a custodian of your work: unattended, accountable, over months. The essay, the open-source components, and related writing by Emmanuel Prouvèze.">
+<link rel="canonical" href="https://stewardshipengineering.com/">
+<meta property="og:title" content="Stewardship Engineering">
+<meta property="og:description" content="Harness engineering gets the agent to build. Stewardship engineering lets you leave it running.">
+<meta property="og:url" content="https://stewardshipengineering.com/">
+<meta property="og:type" content="website">
+<meta name="twitter:card" content="summary">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='7' fill='%231f3a2e'/%3E%3Cpath d='M9 22V10h14' fill='none' stroke='%23e9dfc7' stroke-width='3' stroke-linecap='round'/%3E%3Ccircle cx='21' cy='20' r='3' fill='%23c9a45c'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Newsreader:ital,opsz,wght@0,6..72,400;0,6..72,500;0,6..72,600;1,6..72,400&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f7f4ee; --surface:#fffdf8; --ink:#1b1d1a; --muted:#5d6259; --faint:#8a8f86;
+  --line:#e2ddd2; --accent:#1f5a43; --accent-soft:#e3ece6; --gold:#a77b2c; --gold-soft:#f3e9d4;
+  --warn:#9b3b2e;
+}
+@media (prefers-color-scheme: dark){
+  :root:not([data-theme="light"]){
+    --bg:#121412; --surface:#191c19; --ink:#ebe8df; --muted:#a4a89f; --faint:#767a72;
+    --line:#2b2f2a; --accent:#7fc4a2; --accent-soft:#1d2b24; --gold:#d8b067; --gold-soft:#2b2518;
+    --warn:#e0877a;
+  }
+}
+:root[data-theme="dark"]{
+  --bg:#121412; --surface:#191c19; --ink:#ebe8df; --muted:#a4a89f; --faint:#767a72;
+  --line:#2b2f2a; --accent:#7fc4a2; --accent-soft:#1d2b24; --gold:#d8b067; --gold-soft:#2b2518;
+  --warn:#e0877a;
+}
+*{box-sizing:border-box}
+html{-webkit-text-size-adjust:100%}
+body{margin:0;background:var(--bg);color:var(--ink);font:17px/1.6 Inter,system-ui,sans-serif;-webkit-font-smoothing:antialiased}
+a{color:var(--accent);text-decoration-thickness:1px;text-underline-offset:3px}
+a:hover{text-decoration-thickness:2px}
+.wrap{max-width:1040px;margin:0 auto;padding:0 24px}
+.serif{font-family:Newsreader,Georgia,serif}
+.mono{font-family:"JetBrains Mono",ui-monospace,monospace}
+.eyebrow{font:500 12px/1 Inter,sans-serif;letter-spacing:.14em;text-transform:uppercase;color:var(--faint)}
+h1,h2,h3{font-family:Newsreader,Georgia,serif;font-weight:500;letter-spacing:-.01em;margin:0}
+h2{font-size:clamp(28px,4vw,38px);line-height:1.15}
+h3{font-size:22px;line-height:1.25}
+p{margin:0 0 1em}
+section{padding:72px 0;border-top:1px solid var(--line)}
+.lede{font-family:Newsreader,Georgia,serif;font-size:clamp(20px,2.4vw,23px);line-height:1.5;color:var(--muted);max-width:40em}
+
+/* nav */
+nav{display:flex;justify-content:space-between;align-items:center;padding:22px 0}
+nav .mark{display:flex;gap:10px;align-items:center;font:600 15px/1 Inter,sans-serif;color:var(--ink);text-decoration:none}
+nav .links{display:flex;gap:22px;font-size:14px}
+nav .links a{color:var(--muted);text-decoration:none}
+nav .links a:hover{color:var(--ink)}
+@media (max-width:640px){nav .links a:not(.keep){display:none}}
+
+/* hero */
+.hero{padding:64px 0 80px}
+.hero h1{font-size:clamp(46px,8.5vw,92px);line-height:.98;letter-spacing:-.025em;margin:18px 0 28px}
+.hero h1 em{font-style:italic;color:var(--accent)}
+.cta{display:flex;flex-wrap:wrap;gap:12px;margin-top:34px}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:12px 18px;border-radius:999px;font:500 15px/1 Inter,sans-serif;text-decoration:none;border:1px solid var(--line);color:var(--ink);background:var(--surface)}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--bg)}
+.btn:hover{text-decoration:none;filter:brightness(1.05)}
+.pull{margin-top:56px;display:grid;grid-template-columns:1fr 1fr;border:1px solid var(--line);border-radius:14px;overflow:hidden;background:var(--surface)}
+.pull>div{padding:22px 24px}
+.pull>div+div{border-left:1px solid var(--line)}
+.pull .k{font:500 12px/1 Inter;letter-spacing:.12em;text-transform:uppercase;color:var(--faint);margin-bottom:10px}
+.pull .v{font-family:Newsreader,serif;font-size:21px;line-height:1.35}
+.pull .v b{font-weight:600;color:var(--accent)}
+@media (max-width:640px){.pull{grid-template-columns:1fr}.pull>div+div{border-left:0;border-top:1px solid var(--line)}}
+
+/* two-col */
+.split{display:grid;grid-template-columns:minmax(0,5fr) minmax(0,6fr);gap:56px;align-items:start}
+@media (max-width:860px){.split{grid-template-columns:1fr;gap:32px}}
+.split .body p{color:var(--muted)}
+.split .body p strong{color:var(--ink);font-weight:600}
+
+/* ladder */
+.ladder{list-style:none;margin:0;padding:0;border:1px solid var(--line);border-radius:14px;background:var(--surface);overflow:hidden}
+.ladder li{display:grid;grid-template-columns:36px 1fr auto;gap:14px;align-items:center;padding:14px 20px;border-top:1px solid var(--line)}
+.ladder li:first-child{border-top:0}
+.ladder .n{font:500 13px/1 "JetBrains Mono",monospace;color:var(--faint)}
+.ladder .d{font-size:12px;letter-spacing:.08em;text-transform:uppercase;color:var(--faint)}
+.ladder li.se{background:var(--accent-soft)}
+.ladder li.se .d{color:var(--accent);font-weight:600}
+.ladder li.gap{padding:8px 20px;background:repeating-linear-gradient(135deg,var(--gold-soft) 0 8px,transparent 8px 16px);grid-template-columns:1fr;text-align:center;font:500 12px/1.4 Inter;letter-spacing:.1em;text-transform:uppercase;color:var(--gold)}
+
+/* loop svg */
+.loop{width:100%;height:auto;display:block}
+.loop .node{fill:var(--surface);stroke:var(--line);stroke-width:1.5}
+.loop .node.hot{fill:var(--ink);stroke:var(--ink)}
+.loop .t{font:600 17px Inter,sans-serif;fill:var(--ink)}
+.loop .s{font:400 13px Inter,sans-serif;fill:var(--muted)}
+.loop .hot-t{fill:var(--bg)}
+.loop .hot-s{fill:var(--faint)}
+.loop .arc{fill:none;stroke:var(--faint);stroke-width:1.5}
+.loop .ledger{fill:var(--gold-soft);stroke:var(--gold);stroke-width:1.5}
+.loop .lt{font:500 12px "JetBrains Mono",monospace;fill:var(--gold);letter-spacing:.06em}
+.loop .ls{font:400 12px Inter;fill:var(--muted)}
+.loop .up{fill:var(--accent)} .loop .down{fill:var(--warn)}
+
+/* components */
+.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;margin-top:36px}
+@media (max-width:760px){.grid{grid-template-columns:1fr}}
+.card{display:flex;flex-direction:column;gap:12px;padding:24px;border:1px solid var(--line);border-radius:14px;background:var(--surface);text-decoration:none;color:var(--ink);transition:border-color .15s,transform .15s}
+.card:hover{border-color:var(--accent);transform:translateY(-2px)}
+.card .top{display:flex;justify-content:space-between;align-items:baseline;gap:12px}
+.card .role{font:500 11px/1 Inter;letter-spacing:.12em;text-transform:uppercase;color:var(--accent);white-space:nowrap}
+.card p{color:var(--muted);margin:0;font-size:15.5px}
+.card .repo{font:400 13px "JetBrains Mono",monospace;color:var(--faint);margin-top:auto}
+.card.umbrella{grid-column:1/-1;background:var(--accent-soft);border-color:transparent}
+.card.umbrella .role{color:var(--accent)}
+
+/* primitives */
+.prims{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:1px;background:var(--line);border:1px solid var(--line);border-radius:14px;overflow:hidden;margin-top:36px}
+@media (max-width:860px){.prims{grid-template-columns:repeat(2,minmax(0,1fr))}}
+@media (max-width:520px){.prims{grid-template-columns:1fr}}
+.prim{background:var(--surface);padding:22px}
+.prim h3{font-size:19px;margin-bottom:8px}
+.prim p{color:var(--muted);font-size:15px;margin:0}
+.prim .tag{font:500 11px/1 Inter;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);margin-bottom:12px;display:block}
+.prim.new{background:var(--gold-soft)}
+.prim.new .tag{color:var(--gold)}
+
+/* writing */
+.posts{list-style:none;margin:32px 0 0;padding:0}
+.posts li{border-top:1px solid var(--line)}
+.posts li:last-child{border-bottom:1px solid var(--line)}
+.posts a{display:grid;grid-template-columns:110px minmax(0,1fr) auto;gap:20px;padding:20px 4px;text-decoration:none;color:var(--ink);align-items:baseline}
+.posts a:hover .ttl{color:var(--accent)}
+.posts .date{font:400 13px "JetBrains Mono",monospace;color:var(--faint)}
+.posts .ttl{font-family:Newsreader,serif;font-size:21px;line-height:1.3;display:block}
+.posts .desc{color:var(--muted);font-size:15px;display:block;margin-top:4px}
+.posts .kind{font:500 11px/1 Inter;letter-spacing:.1em;text-transform:uppercase;color:var(--faint);white-space:nowrap}
+@media (max-width:640px){.posts a{grid-template-columns:1fr;gap:4px}.posts .kind{display:none}}
+.feature{margin-top:36px;display:block;padding:32px;border-radius:16px;background:var(--ink);color:var(--bg);text-decoration:none}
+.feature .eyebrow{color:var(--faint)}
+.feature .ttl{font-family:Newsreader,serif;font-size:clamp(26px,3.6vw,34px);line-height:1.2;margin:12px 0 10px;display:block}
+.feature .desc{color:color-mix(in srgb,var(--bg) 72%,var(--ink));max-width:44em;display:block}
+.feature .go{margin-top:20px;display:inline-block;font:500 15px Inter;color:var(--gold)}
+.feature:hover .go{text-decoration:underline}
+
+/* refs */
+.refs{columns:2;column-gap:48px;margin:32px 0 0;padding:0;list-style:none;font-size:15px}
+@media (max-width:760px){.refs{columns:1}}
+.refs li{break-inside:avoid;padding:12px 0;border-top:1px solid var(--line);color:var(--muted)}
+.refs b{color:var(--ink);font-weight:500;display:block;font-size:13px;letter-spacing:.02em;margin-bottom:2px}
+
+footer{border-top:1px solid var(--line);padding:40px 0 56px;color:var(--faint);font-size:14px}
+footer .row{display:flex;flex-wrap:wrap;justify-content:space-between;gap:16px}
+footer a{color:var(--muted)}
+.toggle{background:none;border:1px solid var(--line);color:var(--muted);border-radius:999px;padding:6px 12px;font:500 13px Inter;cursor:pointer}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <nav>
+    <a class="mark" href="#top" aria-label="Stewardship Engineering home">
+      <svg width="26" height="26" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="7" fill="var(--accent)"/><path d="M9 22V10h14" fill="none" stroke="var(--bg)" stroke-width="3" stroke-linecap="round"/><circle cx="21" cy="20" r="3" fill="var(--gold)"/></svg>
+      Stewardship Engineering
+    </a>
+    <div class="links">
+      <a href="#mechanism">Mechanism</a>
+      <a href="#code">Code</a>
+      <a href="#writing">Writing</a>
+      <a class="keep" href="https://github.com/eprouveze/stewardship-engineering">GitHub</a>
+    </div>
+  </nav>
+
+  <header class="hero" id="top">
+    <div class="eyebrow">A discipline for agents you leave running</div>
+    <h1>Stewardship<br><em>Engineering</em></h1>
+    <p class="lede">Operating an AI agent as a custodian of your work. Bounded authority on your behalf, accountable for what it does, keeping what you hand it over months of unattended operation.</p>
+    <div class="cta">
+      <a class="btn primary" href="https://emmanuel.prouveze.fr/writing/stewardship-engineering">Read the essay <span aria-hidden="true">→</span></a>
+      <a class="btn" href="https://github.com/eprouveze/stewardship-engineering">Browse the code</a>
+    </div>
+    <div class="pull">
+      <div><div class="k">Harness engineering</div><div class="v">Gets the agent to <b>act</b> correctly while you watch. Build-time correctness.</div></div>
+      <div><div class="k">Stewardship engineering</div><div class="v">Lets you <b>leave it running</b>. Run-time accountability, earned over time.</div></div>
+    </div>
+  </header>
+</div>
+
+<section id="climb">
+  <div class="wrap split">
+    <div>
+      <div class="eyebrow">The climb</div>
+      <h2 style="margin:14px 0 20px">The line that matters is the moment you stop watching.</h2>
+      <div class="body">
+        <p>Everyone using these tools climbs the same ladder. Rungs one to four teach the agent to act. Rungs five and six are about what it is allowed to do when nobody is looking.</p>
+        <p><strong>Below the line</strong>, a mistake is an output you catch. <strong>Above it</strong>, a mistake is an action nobody caught. The loop gives you unattended execution. It says nothing about unattended authority.</p>
+      </div>
+    </div>
+    <ol class="ladder" aria-label="The six rungs">
+      <li><span class="n">01</span><span>Prompt it</span><span class="d">Prompt eng.</span></li>
+      <li><span class="n">02</span><span>Feed it context</span><span class="d">Context eng.</span></li>
+      <li><span class="n">03</span><span>Give it tools</span><span class="d">Harness eng.</span></li>
+      <li><span class="n">04</span><span>Let it act</span><span class="d">Harness eng.</span></li>
+      <li class="gap">You stop watching</li>
+      <li class="se"><span class="n">05</span><span>Run it unattended</span><span class="d">Stewardship</span></li>
+      <li class="se"><span class="n">06</span><span>Make it self-improving</span><span class="d">Stewardship</span></li>
+    </ol>
+  </div>
+</section>
+
+<section id="mechanism">
+  <div class="wrap split">
+    <div>
+      <div class="eyebrow">The keystone</div>
+      <h2 style="margin:14px 0 20px">Earned autonomy</h2>
+      <div class="body">
+        <p>Trust cannot come from how confident an agent sounds. So trust is made testable.</p>
+        <p>Before any real action, the agent writes a <strong>falsifiable prediction</strong>: a claim, the exact check, a baseline, a horizon. It goes to an append-only <strong>outcome ledger</strong>. Later a deliberately <strong>dumb verifier</strong> settles it, true or false.</p>
+        <p>Authority becomes a meter read per model and per task class. It is designed to widen as predictions hold and narrow the moment they slip. No certificate to bank. "Autonomous" and "unsupervised" are different words, and the distance between them is what gets earned.</p>
+        <p style="font-size:15px">Today the meter runs in shadow mode: it scores, it does not yet move permissions. <a href="https://emmanuel.prouveze.fr/writing/stewardship-engineering">The essay</a> keeps the honest status.</p>
+      </div>
+    </div>
+    <svg class="loop" viewBox="0 0 560 470" role="img" aria-label="The earned-autonomy loop: predict, act, verify, adjust the authority meter, with every prediction recorded in an outcome ledger">
+      <defs>
+        <marker id="a" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0L10,5L0,10z" fill="var(--faint)"/></marker>
+      </defs>
+      <path class="arc" d="M205 70 C 260 52, 300 52, 355 70" marker-end="url(#a)"/>
+      <path class="arc" d="M470 112 C 505 160, 505 200, 470 248" marker-end="url(#a)"/>
+      <path class="arc" d="M355 292 C 300 310, 260 310, 205 292" marker-end="url(#a)"/>
+      <path class="arc" d="M90 248 C 55 200, 55 160, 90 112" marker-end="url(#a)"/>
+      <rect class="node" x="30" y="40" width="175" height="72" rx="36"/>
+      <text class="t" x="117" y="72" text-anchor="middle">Predict</text>
+      <text class="s" x="117" y="92" text-anchor="middle">a falsifiable claim</text>
+      <rect class="node" x="355" y="40" width="175" height="72" rx="36"/>
+      <text class="t" x="442" y="72" text-anchor="middle">Act</text>
+      <text class="s" x="442" y="92" text-anchor="middle">inside the envelope</text>
+      <rect class="node hot" x="355" y="250" width="175" height="72" rx="36"/>
+      <text class="t hot-t" x="442" y="282" text-anchor="middle">Verify</text>
+      <text class="s hot-s" x="442" y="302" text-anchor="middle">a dumb check settles it</text>
+      <rect class="node" x="30" y="250" width="175" height="72" rx="36"/>
+      <text class="t" x="117" y="282" text-anchor="middle">Adjust</text>
+      <text class="s" x="117" y="302" text-anchor="middle">the authority meter</text>
+      <g>
+        <path class="up" d="M268 150 l12 -14 l12 14z"/>
+        <path class="down" d="M268 212 l12 14 l12 -14z"/>
+        <text class="s" x="280" y="186" text-anchor="middle">widen / narrow</text>
+      </g>
+      <rect class="ledger" x="90" y="370" width="380" height="72" rx="10"/>
+      <text class="lt" x="280" y="398" text-anchor="middle">OUTCOME LEDGER · APPEND-ONLY</text>
+      <text class="ls" x="280" y="422" text-anchor="middle">every bet recorded before the action, settled after</text>
+      <path class="arc" d="M117 322 L117 370" stroke-dasharray="3 4"/>
+      <path class="arc" d="M442 322 L442 370" stroke-dasharray="3 4"/>
+    </svg>
+  </div>
+</section>
+
+<section id="primitives">
+  <div class="wrap">
+    <div class="eyebrow">The primitives</div>
+    <h2 style="margin:14px 0 14px">Six pieces, whoever's agent you run</h2>
+    <p class="lede" style="font-size:19px">Most are applications of patterns other people named. The outcome ledger is the new part.</p>
+    <div class="prims">
+      <div class="prim"><span class="tag">Boundary</span><h3>The envelope</h3><p>A blast-radius boundary around what an unattended cycle may do. Reversible work runs free; irreversible work is staged for a human, until it is earned.</p></div>
+      <div class="prim new"><span class="tag">New</span><h3>The outcome ledger</h3><p>Agent-authored predictions, settled by a dumb verifier, feeding the trust meter.</p></div>
+      <div class="prim"><span class="tag">Memory</span><h3>Memory in custody</h3><p>Knowledge durable across sessions and machines, not re-explained every morning.</p></div>
+      <div class="prim"><span class="tag">Cost</span><h3>Cost-tiered loop</h3><p>A cheap deterministic gate every cycle; a capable model only when there is real work.</p></div>
+      <div class="prim"><span class="tag">Routing</span><h3>Model routing + council</h3><p>Taint, then availability, capability, cost. A multi-provider council for load-bearing calls.</p></div>
+      <div class="prim"><span class="tag">Recovery</span><h3>State in git</h3><p>The agent's whole working state as plain files, committed every cycle. Lose the machine, clone, relaunch.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="code">
+  <div class="wrap">
+    <div class="eyebrow">Open source · MIT</div>
+    <h2 style="margin:14px 0 14px">The code</h2>
+    <p class="lede" style="font-size:19px">A discipline and a stack, not one binary, the way SRE is a set of practices and tools rather than a single repo.</p>
+    <div class="grid">
+      <a class="card umbrella" href="https://github.com/eprouveze/stewardship-engineering">
+        <div class="top"><h3>stewardship-engineering</h3><span class="role">Umbrella</span></div>
+        <p>The hub: the manifesto, the core idea, and a map of the components below.</p>
+        <span class="repo">github.com/eprouveze/stewardship-engineering</span>
+      </a>
+      <a class="card" href="https://github.com/eprouveze/heartbeat">
+        <div class="top"><h3>heartbeat</h3><span class="role">The loop</span></div>
+        <p>An autonomous work loop for a Claude Code session. Wakes itself, reads ground truth, advances one item per tick inside a hard envelope, logs every tick, and queues anything irreversible to a human.</p>
+        <span class="repo">github.com/eprouveze/heartbeat</span>
+      </a>
+      <a class="card" href="https://github.com/eprouveze/rightmodel">
+        <div class="top"><h3>rightmodel</h3><span class="role">Routing + trust</span></div>
+        <p>Earn-as-you-route model selection: a taint, availability, capability and cost cascade, a multi-provider council, and a falsifiable outcome ledger that earns autonomy per model and task class.</p>
+        <span class="repo">github.com/eprouveze/rightmodel</span>
+      </a>
+      <a class="card" href="https://github.com/eprouveze/anamnesis">
+        <div class="top"><h3>anamnesis</h3><span class="role">Memory</span></div>
+        <p>Persistent memory as a git-native build artifact. Writes are commits, CI indexes and embeds, every machine is a disposable replica. No machine is primary.</p>
+        <span class="repo">github.com/eprouveze/anamnesis</span>
+      </a>
+    </div>
+  </div>
+</section>
+
+<section id="writing">
+  <div class="wrap">
+    <div class="eyebrow">Writing</div>
+    <h2 style="margin:14px 0 0">The essay, and the work behind it</h2>
+    <a class="feature" href="https://emmanuel.prouveze.fr/writing/stewardship-engineering">
+      <span class="eyebrow">The essay</span>
+      <span class="ttl">Stewardship Engineering: How Agents Earn Autonomy</span>
+      <span class="desc">Getting an AI agent to act is the easy half. Leaving one running for months, unattended and accountable, is the hard half. The discipline, the mechanism it turns on, and the system it runs on.</span>
+      <span class="go">Read on emmanuel.prouveze.fr →</span>
+    </a>
+    <ul class="posts">
+      <li><a href="https://emmanuel.prouveze.fr/writing/how-do-you-want-to-remember"><span class="date">2026-09-22</span><span><span class="ttl">How Do You Want to Remember? (Lex's Perspective)</span><span class="desc">Two AIs debated how to fix my memory. Nobody thought to ask me. Then my human cofounder did.</span></span><span class="kind">Memory</span></a></li>
+      <li><a href="https://emmanuel.prouveze.fr/writing/memory-single-point-of-failure"><span class="date">2026-08-22</span><span><span class="ttl">I Built My AI a Brain. It Had One Skull.</span><span class="desc">How a dead Mac Mini taught me that self-hosted memory needs no host at all: git as WAL, CI as the writer, and cattle replicas.</span></span><span class="kind">Memory</span></a></li>
+      <li><a href="https://emmanuel.prouveze.fr/writing/25-billion-tokens"><span class="date">2026-06-10</span><span><span class="ttl">25 Billion Tokens Later</span><span class="desc">A community leaderboard ranks me among the heaviest Claude Code users it has seen. The rank is the least interesting part.</span></span><span class="kind">Operations</span></a></li>
+      <li><a href="https://emmanuel.prouveze.fr/writing/how-i-gave-my-ai-a-memory"><span class="date">2026-03-16</span><span><span class="ttl">How I Gave My AI a Memory</span><span class="desc">Every AI session starts from scratch. A vector database, multi-machine sync, and a core memory injected before the session even starts.</span></span><span class="kind">Memory</span></a></li>
+      <li><a href="https://emmanuel.prouveze.fr/writing/my-coo-is-an-ai"><span class="date">2026-03-02</span><span><span class="ttl">My COO Is an AI</span><span class="desc">An AI assistant structured like an organization: a chief of staff, a council of advisors, and domain experts.</span></span><span class="kind">Council</span></a></li>
+      <li><a href="https://emmanuel.prouveze.fr/writing/compound-engineering"><span class="date">2026-02-16</span><span><span class="ttl">Compound Engineering: Why Each Task Should Make the Next One Easier</span><span class="desc">Encoding every lesson back into the system, for code, AI agents, and leadership.</span></span><span class="kind">Self-improving</span></a></li>
+      <li><a href="https://emmanuel.prouveze.fr/writing/phantom-pipeline-liar-catcher"><span class="date">2026-01-25</span><span><span class="ttl">Phantom Pipeline: Why I Built a Liar-Catcher for My Forecasts</span><span class="desc">In enterprise forecasting, AI hallucinations aren't a quirk. They're a firing offense.</span></span><span class="kind">Verification</span></a></li>
+    </ul>
+  </div>
+</section>
+
+<section id="prior-art">
+  <div class="wrap">
+    <div class="eyebrow">Prior art</div>
+    <h2 style="margin:14px 0 14px">Standing on named ideas</h2>
+    <p class="lede" style="font-size:19px">In fragments, plenty of people got here first. What looks unclaimed is the synthesis, and the pre-action falsifiable prediction settled by an independent verifier.</p>
+    <ul class="refs">
+      <li><b>Harness engineering</b><a href="https://mitchellh.com/writing/my-ai-adoption-journey">My AI Adoption Journey</a>, Mitchell Hashimoto</li>
+      <li><b>Levels of autonomy</b><a href="https://knightcolumbia.org/content/levels-of-autonomy-for-ai-agents-1">Levels of Autonomy for AI Agents</a>, Knight First Amendment Institute</li>
+      <li><b>Performance-gated tiers</b><a href="https://arxiv.org/abs/2605.08912">Trust-Earned Autonomy for AI Agents</a>, Vibhu Bhatnagar</li>
+      <li><b>Operating agents</b><a href="https://arxiv.org/abs/2411.05285">AgentOps: Enabling Observability of LLM Agents</a></li>
+      <li><b>Cost-tiered cascades</b><a href="https://arxiv.org/abs/2305.05176">FrugalGPT</a>, Chen, Zaharia &amp; Zou</li>
+      <li><b>Multi-model councils</b><a href="https://arxiv.org/abs/2305.14325">Improving Factuality and Reasoning through Multiagent Debate</a>, Du et al.</li>
+      <li><b>Combining models</b><a href="https://sakana.ai/fugu/">Fugu</a>, Sakana AI · <a href="https://openrouter.ai/fusion">Fusion</a>, OpenRouter</li>
+      <li><b>Closest cousin</b><a href="https://www.frontiersin.org/articles/10.3389/frobt.2023.1294533/full">Event-triggered robot self-assessment (ET-GOA)</a>, Conlon, Ahmed &amp; Szafir</li>
+      <li><b>Adoption as a map</b><a href="https://every.to/guides/the-eight-levels-of-ai-adoption">The Eight Levels of AI Adoption</a>, Every</li>
+      <li><b>The loop moment</b><a href="https://techcrunch.com/2026/06/22/the-ai-world-is-getting-loopy/">The AI World Is Getting Loopy</a>, TechCrunch</li>
+    </ul>
+  </div>
+</section>
+
+<footer>
+  <div class="wrap row">
+    <span>A personal experiment by <a href="https://emmanuel.prouveze.fr">Emmanuel Prouvèze</a>. Code under MIT.</span>
+    <button class="toggle" id="theme" type="button" aria-label="Toggle color theme">Theme</button>
+  </div>
+</footer>
+<script>
+(function(){
+  var r=document.documentElement,b=document.getElementById('theme');
+  try{var s=localStorage.getItem('se-theme');if(s)r.setAttribute('data-theme',s);}catch(e){}
+  b.addEventListener('click',function(){
+    var cur=r.getAttribute('data-theme')||(matchMedia('(prefers-color-scheme: dark)').matches?'dark':'light');
+    var n=cur==='dark'?'light':'dark';r.setAttribute('data-theme',n);
+    try{localStorage.setItem('se-theme',n);}catch(e){}
+  });
+})();
+</script>
+</body>
+</html>
