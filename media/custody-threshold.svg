@@ -1,0 +1,25 @@
+<svg viewBox="0 0 760 220" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="background:#fffdf8;border:1px solid #e2ddd2;border-radius:12px;padding:16px;margin:16px 0;font-family:Inter,system-ui,sans-serif;">
+  <rect x="20" y="20" width="340" height="180" rx="8" fill="#f7f4ee" stroke="#e2ddd2" stroke-width="1.5"/>
+  <text x="40" y="52" fill="#8a8f86" font-size="12" font-weight="600" letter-spacing="0.08em">RUNGS 3–4: SUPERVISED HARNESS</text>
+  <text x="40" y="78" fill="#1b1d1a" font-size="16" font-weight="600">The Watcher Regime</text>
+  <text x="40" y="106" fill="#5d6259" font-size="13">• Human watches terminal in real time</text>
+  <text x="40" y="128" fill="#5d6259" font-size="13">• Interactive catches for hallucinated diffs</text>
+  <text x="40" y="150" fill="#5d6259" font-size="13">• Session-scoped, ephemeral working state</text>
+  <text x="40" y="172" fill="#9b3b2e" font-size="13" font-weight="500">❌ Git used as informal progress log</text>
+  
+  <path d="M375 110 L395 110" stroke="#a77b2c" stroke-width="2" marker-end="url(#arrow)"/>
+  
+  <rect x="400" y="20" width="340" height="180" rx="8" fill="#e3ece6" stroke="#1f5a43" stroke-width="1.5"/>
+  <text x="420" y="52" fill="#1f5a43" font-size="12" font-weight="600" letter-spacing="0.08em">RUNG 5: STEWARDSHIP CUSTODY</text>
+  <text x="420" y="78" fill="#1b1d1a" font-size="16" font-weight="600">The Custodian Regime</text>
+  <text x="420" y="106" fill="#1b1d1a" font-size="13">• Unattended operation over weeks and months</text>
+  <text x="420" y="128" fill="#1b1d1a" font-size="13">• Bounded execution envelopes and verifiers</text>
+  <text x="420" y="150" fill="#1b1d1a" font-size="13">• Out-of-band dead-man telemetry (D1 / KV)</text>
+  <text x="420" y="172" fill="#1f5a43" font-size="13" font-weight="600">✓ Zero-churn repository custody</text>
+  
+  <defs>
+    <marker id="arrow" viewBox="0 0 10 10" refX="6" refY="5" markerWidth="6" markerHeight="6" orient="auto-start-reverse">
+      <path d="M 0 1 L 8 5 L 0 9 z" fill="#a77b2c"/>
+    </marker>
+  </defs>
+</svg>

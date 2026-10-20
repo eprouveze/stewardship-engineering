@@ -1,0 +1,24 @@
+<svg viewBox="0 0 760 300" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="background:#fffdf8;border:1px solid #e2ddd2;border-radius:12px;padding:16px;margin:16px 0;font-family:Inter,system-ui,sans-serif;">
+  <line x1="80" y1="35" x2="80" y2="265" stroke="#e2ddd2" stroke-width="4"/>
+  <line x1="220" y1="35" x2="220" y2="265" stroke="#e2ddd2" stroke-width="4"/>
+  
+  <rect x="70" y="40" width="160" height="34" rx="6" fill="#1f5a43"/>
+  <text x="85" y="62" fill="#fffdf8" font-size="12" font-weight="600">Rung 0: Local Auto-Repair</text>
+  <text x="250" y="62" fill="#1b1d1a" font-size="13">Host actuator restarts process, clears locks, saves Git bundle</text>
+  
+  <rect x="70" y="85" width="160" height="34" rx="6" fill="#2d6e53"/>
+  <text x="85" y="107" fill="#fffdf8" font-size="12" font-weight="600">Rung 1: Silent Re-Probe</text>
+  <text x="250" y="107" fill="#5d6259" font-size="13">Edge evaluates 3-attempt sliding window to absorb network blips</text>
+  
+  <rect x="70" y="130" width="160" height="34" rx="6" fill="#a77b2c"/>
+  <text x="85" y="152" fill="#fffdf8" font-size="12" font-weight="600">Rung 2: Host Grouping</text>
+  <text x="250" y="152" fill="#5d6259" font-size="13">Collapses N streams on 1 dead host into 1 page (suppresses storms)</text>
+  
+  <rect x="70" y="175" width="160" height="34" rx="6" fill="#9b3b2e"/>
+  <text x="85" y="197" fill="#fffdf8" font-size="12" font-weight="600">Rung 3: GitHub Issue</text>
+  <text x="250" y="197" fill="#9b3b2e" font-size="13" font-weight="500">Unresolved after 6 hours: auto-opens Issue; auto-closes on recovery</text>
+  
+  <rect x="70" y="220" width="160" height="34" rx="6" fill="#1b1d1a"/>
+  <text x="85" y="242" fill="#fffdf8" font-size="12" font-weight="600">Rung 4: Daily Digest</text>
+  <text x="250" y="242" fill="#5d6259" font-size="13">Unconditional 08:00 UTC report proves watchdog itself hasn't died</text>
+</svg>

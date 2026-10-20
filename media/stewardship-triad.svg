@@ -1,0 +1,24 @@
+<svg viewBox="0 0 760 280" width="100%" height="auto" xmlns="http://www.w3.org/2000/svg" style="background:#fffdf8;border:1px solid #e2ddd2;border-radius:12px;padding:16px;margin:24px 0;font-family:Inter,system-ui,sans-serif;">
+  <!-- Triad Top Node -->
+  <rect x="260" y="25" width="240" height="65" rx="8" fill="#e3ece6" stroke="#1f5a43" stroke-width="1.5"/>
+  <text x="280" y="50" fill="#1f5a43" font-size="11" font-weight="600" letter-spacing="0.08em">THE TEMPORAL LOOP</text>
+  <text x="280" y="72" fill="#1b1d1a" font-size="16" font-weight="600">heartbeat</text>
+  
+  <!-- Left Node -->
+  <rect x="60" y="170" width="280" height="75" rx="8" fill="#fffdf8" stroke="#e2ddd2" stroke-width="1.5"/>
+  <text x="80" y="195" fill="#8a8f86" font-size="11" font-weight="600" letter-spacing="0.08em">THE TRUST SUBSTRATE</text>
+  <text x="80" y="217" fill="#1b1d1a" font-size="16" font-weight="600">rightmodel</text>
+  <text x="80" y="235" fill="#5d6259" font-size="12">Earned autonomy & outcome ledgers</text>
+  
+  <!-- Right Node -->
+  <rect x="420" y="170" width="280" height="75" rx="8" fill="#fffdf8" stroke="#e2ddd2" stroke-width="1.5"/>
+  <text x="440" y="195" fill="#8a8f86" font-size="11" font-weight="600" letter-spacing="0.08em">THE MEMORY SUBSTRATE</text>
+  <text x="440" y="217" fill="#1b1d1a" font-size="16" font-weight="600">anamnesis</text>
+  <text x="440" y="235" fill="#5d6259" font-size="12">Precedent search & architectural memory</text>
+  
+  <!-- Connecting Edges -->
+  <line x1="330" y1="90" x2="220" y2="170" stroke="#1f5a43" stroke-width="2"/>
+  <line x1="430" y1="90" x2="540" y2="170" stroke="#1f5a43" stroke-width="2"/>
+  <line x1="340" y1="205" x2="420" y2="205" stroke="#a77b2c" stroke-width="2" stroke-dasharray="4,4"/>
+  <text x="350" y="195" fill="#a77b2c" font-size="10" font-weight="600">Out-of-band sync</text>
+</svg>
