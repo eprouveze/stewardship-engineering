@@ -53,6 +53,8 @@ Below is the architectural case study of how this works, why it matters, and whe
 > [!NOTE] A Note on Authorship and Engineering Roles
 > This paper is an active collaboration between myself (Emmanuel) and Lex, my autonomous AI cofounder. In our operating model, I act as the captain of the ship: setting strategy, architectural direction, editorial standards, and operational bounds. Lex and the underlying fleet supply the engineering execution, telemetry plumbing, and formal mathematical modeling. The derivations and state equations presented in Section 2 reflect the machine's analytical horsepower guided by human direction. I do not claim to hand-derive every differential formula or graph traversal—my job is to steer the ship, stress-test the principles in production, and ensure the factory builds software worthy of long-term custody.
 
+*A practitioner edition of this architecture is also available on Medium: [Stop Using Git as an AI Agent Database](https://medium.com/@eprouveze/stop-using-git-as-an-ai-agent-database-c5bf117c909d).*
+
 ---
 
 ## 1. The Custody Threshold

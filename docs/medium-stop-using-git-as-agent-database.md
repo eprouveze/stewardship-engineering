@@ -4,7 +4,8 @@ subtitle: "How my autonomous fleet generated 1,500 commits a day just to say 'I'
 author: Emmanuel Prouvèze
 date: 2026-10-20
 placement: Medium (French in Japan / Personal) & dev.to
-canonical_companion: https://stewardshipengineering.com/writing/zero-churn-repository-custody
+medium_url: https://medium.com/@eprouveze/stop-using-git-as-an-ai-agent-database-c5bf117c909d
+canonical_companion: https://emmanuel.prouveze.fr/writing/zero-churn-repository-custody
 stealth_notes: "Compliant with stealth standards: no proprietary company or stealth product names."
 ---
 
