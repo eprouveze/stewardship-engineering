@@ -1,6 +1,6 @@
 ---
 title: "Stop Using Git as an AI Agent Database"
-subtitle: "How my autonomous fleet generated 1,500 commits a day just to say 'I'm alive'—and the 15-minute edge architecture that fixed it."
+subtitle: "How my autonomous fleet generated 1,500 commits a day just to say 'I'm alive', and the 15-minute edge architecture that fixed it."
 author: Emmanuel Prouvèze
 date: 2026-10-20
 placement: Medium (French in Japan / Personal) & dev.to
@@ -76,7 +76,7 @@ At 5 workers running on 5-minute ticks, you generate 1,440 commits a day. At 10 
 
 Last week, Anthropic published a report revealing that Claude merged 30,000 code changes a day, breaking Git and forcing them to build an in-house version control system named Scion.
 
-Most of us do not need to replace Git with an enterprise distributed VCS. Most teams drowning in commit churn aren't merging 30,000 legitimate code pull requests a day—they are making a simple category error: **treating Git as an operational message bus.**
+Most of us do not need to replace Git with an enterprise distributed VCS. Most teams drowning in commit churn aren't merging 30,000 legitimate code pull requests a day. They are making a simple category error: **treating Git as an operational message bus.**
 
 A repository is an asset registry, not an operational spool. Version control exists to preserve human craftsmanship, architectural diffs, and deliberate releases. Operational telemetry belongs out-of-band.
 
